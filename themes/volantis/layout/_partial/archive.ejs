@@ -1,0 +1,154 @@
+<% if (theme.plugins.pic_shuffling.enable == true) { %>
+<div class="heson_row">
+   <div class="pic_shuffling shadow floatable blur">
+     	<!--主要内容》》》-->
+	<div class="banners">
+
+		<!--受保护块，不建议修改》》》-->
+		<div class="click_left"><img class="get_height" onclick="banner_left_right('left')" src="../img/banner_left.png"></div>
+		<div class="click_right"><img onclick="banner_left_right('right')" src="../img/banner_right.png"></div>
+		<div class="number">
+			<div class="numbers">
+        
+        <span class="num1" onclick="manual_replace_banner(1)">1</span>
+        <span class="num2" onclick="manual_replace_banner(2)">2</span>
+        <span class="num3" onclick="manual_replace_banner(3)">3</span>
+
+      </div>
+			<div style="clear: both;"></div>
+		</div>
+		<!--《《《受保护块，不建议修改-->
+
+		<!--onlick事件调用函数link(参数1，参数2)>>>参数1:跳转链接; 参数2:跳转方式（true:在新的窗口打开链接,false:在当前窗口打开链接）-->
+		<div class="banner_img">
+
+			<!--在此位置内添加img标签即可>>>-->
+      <%- theme.plugins.pic_shuffling.pics %>
+		
+      
+      <!--<<<在此位置内添加img标签即可-->
+			
+		</div>
+
+		<!--此段代码不可移动位置-->
+    <script type="text/javascript">
+    
+
+    
+
+      var banner_max = <%= theme.plugins.pic_shuffling.banner_max %>;//banner总数
+		</script>
+		<!--此段代码不可移动位置-->
+
+	</div>
+	<!--《《《主要内容-->
+
+
+
+
+
+
+
+   </div>
+
+<!--热门文章含图片
+   <div class="hot_post">  
+     <div class="index-banner">
+       <a href="<%- theme.plugins.hot_post.post_one %>" target="_blank">
+          <img src="<%- theme.plugins.hot_post.pic_one %>" style="width: 100%;">
+       </a>
+     </div>
+  
+    <div class="index-banner forpadding">
+      <a href="<%- theme.plugins.hot_post.post_two %>" target="_blank">
+        <img src="<%- theme.plugins.hot_post.pic_two %>" style="width: 100%;">
+      </a>
+    </div>
+   </div>-->
+</div>
+<% } %>
+
+
+
+<% if (site.posts && site.posts.length > 0) { %>
+  <section class="post-list <%- theme.layout.multiple_columns ? 'multiple-columns' : '' %>">
+    <% if (!page.prev) { %>
+      <% if (is_home()) { %>
+        <% site.pages.each(function(post){ %>
+          <% if (post.pin) { %>
+            <% if (page.group == undefined || post.group == page.group) { %>
+              <div class='post-wrapper'>
+                <%- partial('post', {post: post}) %>
+              </div>
+            <% } %>
+          <% } %>
+        <% }) %>
+        <% site.posts.each(function(post){ %>
+          <% if (post.pin) { %>
+            <% if (page.group == undefined || post.group == page.group) { %>
+              <div class='post-wrapper'>
+                <%- partial('post', {post: post}) %>
+              </div>
+            <% } %>
+          <% } %>
+        <% }) %>
+      <% } else if (page.posts && page.posts.length > 0) { %>
+        <% page.posts.each(function(post){ %>
+          <% if (post.pin) { %>
+            <div class='post-wrapper'>
+              <%- partial('post', {post: post}) %>
+            </div>
+          <% } %>
+        <% }) %>
+      <% } %>
+    <% } %>
+    <% if (page.posts && page.posts.length > 0) { %>
+      <% page.posts.each(function(post){ %>
+        <% if (!post.pin) { %>
+          <div class='post-wrapper'>
+            <%- partial('post', {post: post}) %>
+          </div>
+        <% } %>
+      <% }) %>
+    <% } %>
+  </section>
+  <% if (page && page.posts) { %>
+    <% if (page.total > 1) { %>
+      <br>
+      <div class="prev-next">
+        <% if (page.prev != 0) { %>
+          <a class="prev" rel="prev" href="<%= url_for(page.prev_link) %>">
+            <section class="post prev white-box <%- theme.style.body.effect.join(' ') %>" >
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;<%- __('post.prev_page') %>&nbsp;
+            </section>
+          </a>
+        <% } %>
+        <p class="current">
+          <%= page.current%> / <%= page.total%>
+        </p>
+        <% if (page.next != 0) { %>
+          <a class="next" rel="next" href="<%= url_for(page.next_link) %>">
+            <section class="post next white-box <%- theme.style.body.effect.join(' ') %>">
+              &nbsp;<%- __('post.next_page') %>&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </section>
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    <%
+    var need_mathjax = false;
+    page.posts.each(function(post){
+      if (post.mathjax){
+        if (post.mathjax != "internal") {
+          need_mathjax = true;
+        }
+      }
+    });
+    %>
+    <% if (need_mathjax){ %>
+      <%- partial('../_third-party/mathjax') %>
+    <% } %>
+
+  <% } %>
+<% } %>

@@ -1,0 +1,76 @@
+<% if (theme.footer) { %>
+  <%
+  var layout = theme.footer.layout;
+  if (config.theme_config && config.theme_config.footer && config.theme_config.footer.layout) {
+    layout = config.theme_config.footer.layout;
+  }
+  %>
+  <footer class="clearfix shadow floatable blur">
+  <div class="footer_inner">
+   
+    <% layout.forEach(function(item){ %>
+      <% if (item == 'social') { %>
+        <br>
+        <div class="social-wrapper">
+          <% (theme.footer.social||[]).forEach(function(value){ %>
+            <% if (value.url && value.icon) { %>
+              <a href="<%= url_for(value.url) %>"
+                class="social <%- value.icon %> flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            <%}%>
+          <%})%>
+        </div>
+      <% } else if (item == 'aplayer') { %>
+        <div class="aplayer-container">
+          <%- partial('../_third-party/aplayer', {post: null, where: 'footer'}) %>
+        </div>
+      <% } else if (item == 'license') { %>
+        <div><%- markdown(__('footer.license')) %></div>
+      <% } else if (item == 'info') { %>
+        <%- __('footer.use') %>
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/releases/tag/<%- theme.info.version %>" target="_blank" class="codename">Volantis</a>
+        <%- __('footer.theme') %><% if (theme.plugins.busuanzi) { %><%- __('symbol.comma') %><%- __('footer.total_views') %>
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          <%- __('footer.times') %>
+        <% } %>
+      <% } else if (item == 'source') { %>
+        <%- markdown(__('footer.site_source', '[Volantis](https://github.com/volantis-x/hexo-theme-volantis/releases/tag/'+theme.info.version+')', 'GitHub', 'https://github.com/volantis-x/volantis-docs')) %>
+      <% } else if (item == 'copyright') { %>
+        <div class='copyright'>
+        <%- markdown(theme.footer.copyright) %>
+        </div>
+      <% } else if (item == 'lianxi') { %>
+        <div class="widget-wrap widget-list">
+                        <h3 class="widget-title">联系方式</h3>
+                        <div class="widget">
+                            <ul>
+                                <span class="label">
+                                    <a href="#" target="_blank">公众号：程序员闪充宝</a>
+                                </span>
+                            </ul>
+                            <ul>
+                                <span class="label">
+                                    <a href="#" target="_blank">微信：cxyscb1024</a>
+                                </span>
+                            </ul>
+                            <ul>
+                                <span class="label">
+                                    <a href="#" target="_blank">邮箱：dyc87112@qq.com</a>
+                                </span>
+                            </ul>
+                        </div>
+                    </div>
+      <% } else { %>
+        <% if (item in theme.footer) { %>
+          <div><%- markdown(theme.footer[item]) %></div>
+        <% } %>
+      <% } %>
+    <% }) %>
+
+  </div>  
+  </footer>
+<% } %>
+<script id="ribbon" mobile="true" src="https://cdn.jsdelivr.net/gh/heson525/pic@master/img/ribbons2.js"></script>
+<script src="/js/heson.js"></script>
